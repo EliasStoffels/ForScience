@@ -218,8 +218,7 @@ MonoBehaviour:
   exits:
   - {fileID: 2262541383358063043}
   - {fileID: 1839646502414033161}
-  collider: {fileID: 1150298132948655649}
-  generator: {fileID: 0}
+  boundsCollider: {fileID: 1150298132948655649}
 --- !u!65 &1150298132948655649
 BoxCollider:
   m_ObjectHideFlags: 0

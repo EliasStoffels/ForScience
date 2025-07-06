@@ -6,21 +6,30 @@ using UnityEngine;
 
 public class DungeonGenerator : NetworkBehaviour
 {
+    [HideInInspector] public static DungeonGenerator Instance;
+    [HideInInspector] public System.Random Random;
+
     [SerializeField] public GameObject[] smallRooms;
     [SerializeField] public GameObject[] mediumRooms;
     [SerializeField] public GameObject[] largeRooms;
     [SerializeField] private GameObject m_StartRoom;
     [SerializeField] private NavMeshSurface m_NavMeshSurface;
 
-    [SerializeField] Vector3 m_Limits;
-
-    public List<Room> rooms = new List<Room>();
+    [HideInInspector] public List<Room> rooms = new List<Room>();
     private GameObject m_CurrentRoom;
 
-    public static int m_Seed;
+    [HideInInspector] public static int m_Seed;
     private NetworkVariable<int> networkSeed = new(writePerm: NetworkVariableWritePermission.Server);
 
     private bool m_HasGenerated = false;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -55,6 +64,7 @@ public class DungeonGenerator : NetworkBehaviour
     IEnumerator GenerateMaze(int seed)
     {
         System.Random rng = new System.Random(seed);
+        Random = rng;
         //m_CurrentRoom = Instantiate( smallRooms[rng.Next(0, smallRooms.Length)] );
         m_CurrentRoom = Instantiate(m_StartRoom);
         m_CurrentRoom.transform.parent = transform;
@@ -65,7 +75,6 @@ public class DungeonGenerator : NetworkBehaviour
         {
             Room room = m_CurrentRoom.GetComponent<Room>();
             rooms.Add(room);
-            room.generator = this;
             room.SpawnNext(rng);
 
             ++faileSave;

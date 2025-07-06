@@ -6,9 +6,7 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
     [SerializeField] public Exit[] exits;
-    [SerializeField] public Collider collider;
-
-    public DungeonGenerator generator;
+    [SerializeField] public Collider boundsCollider;
 
     void Start()
     {
@@ -42,7 +40,7 @@ public class Room : MonoBehaviour
         {
             if (exit.isConnectedOrClosed) continue;
 
-            GameObject[] shuffledRooms = generator.smallRooms;
+            GameObject[] shuffledRooms = DungeonGenerator.Instance.smallRooms;
             Shuffle(shuffledRooms, rng);
 
             GameObject prefab = null;
@@ -64,8 +62,8 @@ public class Room : MonoBehaviour
                 Physics.SyncTransforms();
 
                 Collider[] hits = Physics.OverlapBox(
-                                    room.collider.bounds.center,
-                                    room.collider.bounds.extents - new Vector3(0.05f,0.05f ,0.05f),
+                                    room.boundsCollider.bounds.center,
+                                    room.boundsCollider.bounds.extents - new Vector3(0.05f,0.05f ,0.05f),
                                     prefab.transform.rotation,
                                     LayerMask.GetMask("Dungeon")
                                     );
@@ -141,7 +139,7 @@ public class Room : MonoBehaviour
             roomExit.isConnectedOrClosed = true;
             exit.isConnectedOrClosed = true;
 
-            generator.rooms.Add(room);
+            DungeonGenerator.Instance.rooms.Add(room);
         }
     }
 
