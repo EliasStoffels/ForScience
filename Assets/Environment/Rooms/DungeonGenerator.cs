@@ -1,7 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using Unity.AI.Navigation;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,6 +10,7 @@ public class DungeonGenerator : NetworkBehaviour
     [SerializeField] public GameObject[] mediumRooms;
     [SerializeField] public GameObject[] largeRooms;
     [SerializeField] private GameObject m_StartRoom;
+    [SerializeField] private NavMeshSurface m_NavMeshSurface;
 
     [SerializeField] Vector3 m_Limits;
 
@@ -82,6 +82,10 @@ public class DungeonGenerator : NetworkBehaviour
         {
             room.CloseRemaining();
         }
+
+        yield return new WaitForSeconds(2);
+
+        m_NavMeshSurface.BuildNavMesh();
 
         yield return null;
     }
