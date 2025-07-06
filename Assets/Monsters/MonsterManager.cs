@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading;
+using Unity.Netcode;
 
 public class MonsterManager : MonoBehaviour
 {
@@ -25,7 +27,8 @@ public class MonsterManager : MonoBehaviour
             m_SpawnedDingDong = true;
             var randomRoom = m_Generator.rooms[m_Generator.Random.Next(0,m_Generator.rooms.Count)];
 
-            GameObject.Instantiate(m_Monsters[m_Generator.Random.Next(0, m_Monsters.Length)], randomRoom.transform.position + new Vector3(0,0.1f,0), Quaternion.identity);
+            var monster = GameObject.Instantiate(m_Monsters[m_Generator.Random.Next(0, m_Monsters.Length)], randomRoom.transform.position + new Vector3(0,0.1f,0), Quaternion.identity);
+            monster.GetComponent<NetworkObject>().Spawn();
         }
     }
 }
