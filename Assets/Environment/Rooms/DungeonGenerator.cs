@@ -10,6 +10,7 @@ public class DungeonGenerator : NetworkBehaviour
     [SerializeField] public GameObject[] smallRooms;
     [SerializeField] public GameObject[] mediumRooms;
     [SerializeField] public GameObject[] largeRooms;
+    [SerializeField] private GameObject m_StartRoom;
 
     [SerializeField] Vector3 m_Limits;
 
@@ -54,12 +55,13 @@ public class DungeonGenerator : NetworkBehaviour
     IEnumerator GenerateMaze(int seed)
     {
         System.Random rng = new System.Random(seed);
-        m_CurrentRoom = Instantiate( smallRooms[ rng.Next( 0,smallRooms.Length )] );
+        //m_CurrentRoom = Instantiate( smallRooms[rng.Next(0, smallRooms.Length)] );
+        m_CurrentRoom = Instantiate(m_StartRoom);
         m_CurrentRoom.transform.parent = transform;
         var originalRoom = m_CurrentRoom;
 
         int faileSave = 0;
-        while(m_CurrentRoom != null && faileSave < 10 )
+        while(m_CurrentRoom != null && faileSave < 25 )
         {
             Room room = m_CurrentRoom.GetComponent<Room>();
             rooms.Add(room);

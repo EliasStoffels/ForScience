@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using UnityEngine;
 
@@ -69,15 +70,60 @@ public class Room : MonoBehaviour
                                     LayerMask.GetMask("Dungeon")
                                     );
 
-                foreach(var hit in hits)
-                {
-                    Debug.Log(hit);
-                }
 
                 if (!hits.Any(hit => hit.gameObject != prefab))
                 {
                     break;
                 }
+                //else
+                //{
+                //    foreach (var hit in hits)
+                //    {
+                //        Debug.Log(hit);
+
+                //        Bounds bounds = hit.bounds;
+                //        Vector3 center = bounds.center;
+                //        Vector3 extents = bounds.extents;
+
+                //        if(extents.x < 2 || extents.y < 2 || extents.z < 2)
+                //        {
+                //            Debug.Log("this one is the small one " + hit);
+                //        }
+
+                //        Vector3[] corners = new Vector3[8];
+
+                //        // Compute the 8 corners of the bounds
+                //        corners[0] = center + new Vector3(-extents.x, -extents.y, -extents.z);
+                //        corners[1] = center + new Vector3(extents.x, -extents.y, -extents.z);
+                //        corners[2] = center + new Vector3(extents.x, -extents.y, extents.z);
+                //        corners[3] = center + new Vector3(-extents.x, -extents.y, extents.z);
+                //        corners[4] = center + new Vector3(-extents.x, extents.y, -extents.z);
+                //        corners[5] = center + new Vector3(extents.x, extents.y, -extents.z);
+                //        corners[6] = center + new Vector3(extents.x, extents.y, extents.z);
+                //        corners[7] = center + new Vector3(-extents.x, extents.y, extents.z);
+
+                //        UnityEngine.Color color = UnityEngine.Color.green;
+                //        float duration = 1000f; // very long duration (or call this every frame)
+
+                //        // Bottom face
+                //        Debug.DrawLine(corners[0], corners[1], color, duration);
+                //        Debug.DrawLine(corners[1], corners[2], color, duration);
+                //        Debug.DrawLine(corners[2], corners[3], color, duration);
+                //        Debug.DrawLine(corners[3], corners[0], color, duration);
+
+                //        // Top face
+                //        Debug.DrawLine(corners[4], corners[5], color, duration);
+                //        Debug.DrawLine(corners[5], corners[6], color, duration);
+                //        Debug.DrawLine(corners[6], corners[7], color, duration);
+                //        Debug.DrawLine(corners[7], corners[4], color, duration);
+
+                //        // Vertical edges
+                //        Debug.DrawLine(corners[0], corners[4], color, duration);
+                //        Debug.DrawLine(corners[1], corners[5], color, duration);
+                //        Debug.DrawLine(corners[2], corners[6], color, duration);
+                //        Debug.DrawLine(corners[3], corners[7], color, duration);
+                //    }
+                //}
 
                 Destroy(prefab);
                 prefab = null;
